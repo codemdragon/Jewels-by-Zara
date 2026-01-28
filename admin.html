@@ -495,6 +495,12 @@
                     <label>Background Image URL</label>
                     <input type="text" id="hero-bg" placeholder="Paste image URL">
                 </div>
+                <div class="input-group">
+                    <label>Or Upload Background Image</label>
+                    <input type="file" id="hero-bg-file" accept="image/*">
+                    <img id="hero-bg-preview" class="img-preview" src="" alt="Preview"
+                        style="width: 200px; height: 120px;">
+                </div>
             </div>
 
             <!-- New In Section -->
@@ -529,8 +535,9 @@
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Upload New Image</label>
+                    <label>Or Upload New Image</label>
                     <input type="file" id="newin-file" accept="image/*">
+                    <img id="newin-preview" class="img-preview" src="" alt="Preview">
                 </div>
             </div>
 
@@ -549,6 +556,11 @@
                         <label>Image URL</label>
                         <input type="text" id="cat-image">
                     </div>
+                </div>
+                <div class="input-group">
+                    <label>Or Upload Image</label>
+                    <input type="file" id="cat-file" accept="image/*">
+                    <img id="cat-preview" class="img-preview" src="" alt="Preview">
                 </div>
                 <input type="hidden" id="cat-index" value="-1">
                 <button class="btn-primary btn-add" id="btn-save-cat" onclick="saveCategory()"
@@ -723,20 +735,48 @@
             document.getElementById('cat-name').value = cat.name;
             document.getElementById('cat-image').value = cat.imageUrl;
             document.getElementById('cat-index').value = index;
+
+            // Show preview
+            const preview = document.getElementById('cat-preview');
+            if (cat.imageUrl) {
+                preview.src = cat.imageUrl;
+                preview.style.display = 'block';
+            }
         }
 
-        function saveCategory() {
+        async function saveCategory() {
             const index = parseInt(document.getElementById('cat-index').value);
-            if (index < 0) return;
+            if (index < 0) return alert('Please click on a category to edit first');
 
-            db.categories[index] = {
-                name: document.getElementById('cat-name').value,
-                imageUrl: document.getElementById('cat-image').value
-            };
-            renderCategories();
-            document.getElementById('cat-name').value = '';
-            document.getElementById('cat-image').value = '';
-            document.getElementById('cat-index').value = '-1';
+            const btn = document.getElementById('btn-save-cat');
+            const fileInput = document.getElementById('cat-file');
+            let url = document.getElementById('cat-image').value;
+            const name = document.getElementById('cat-name').value;
+
+            if (!name) return alert('Category name is required');
+
+            try {
+                btn.disabled = true;
+                btn.innerText = 'Saving...';
+
+                const uploadedUrl = await uploadImage(fileInput, `cat-${name.toLowerCase().replace(/\s+/g, '-')}`);
+                if (uploadedUrl) url = uploadedUrl;
+
+                db.categories[index] = { name, imageUrl: url };
+                renderCategories();
+
+                // Reset form
+                document.getElementById('cat-name').value = '';
+                document.getElementById('cat-image').value = '';
+                document.getElementById('cat-file').value = '';
+                document.getElementById('cat-index').value = '-1';
+                document.getElementById('cat-preview').style.display = 'none';
+            } catch (e) {
+                alert(e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Save Category';
+            }
         }
 
         function renderProducts() {
@@ -865,7 +905,7 @@
             preview.style.display = 'none';
         }
 
-        // Image preview on file select
+        // Image preview on file select - Product
         document.getElementById('new-img-file').addEventListener('change', e => {
             const file = e.target.files[0];
             if (!file) return;
@@ -874,13 +914,52 @@
             preview.style.display = 'block';
         });
 
-        function collectFormData() {
+        // Image preview on file select - Hero Background
+        document.getElementById('hero-bg-file').addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const preview = document.getElementById('hero-bg-preview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        });
+
+        // Image preview on file select - New In
+        document.getElementById('newin-file').addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const preview = document.getElementById('newin-preview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        });
+
+        // Image preview on file select - Category
+        document.getElementById('cat-file').addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const preview = document.getElementById('cat-preview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        });
+
+        async function collectFormData() {
+            // Handle Hero background upload
+            const heroBgFile = document.getElementById('hero-bg-file');
+            let heroBgUrl = document.getElementById('hero-bg').value;
+            const uploadedHeroBg = await uploadImage(heroBgFile, 'hero-bg');
+            if (uploadedHeroBg) heroBgUrl = uploadedHeroBg;
+
+            // Handle New In image upload
+            const newInFile = document.getElementById('newin-file');
+            let newInUrl = document.getElementById('newin-image').value;
+            const uploadedNewIn = await uploadImage(newInFile, 'newin');
+            if (uploadedNewIn) newInUrl = uploadedNewIn;
+
             // Collect all form data back to db object
             db.hero = {
                 subtitle: document.getElementById('hero-subtitle').value,
                 title: document.getElementById('hero-title').value,
                 description: document.getElementById('hero-description').value,
-                backgroundImage: document.getElementById('hero-bg').value
+                backgroundImage: heroBgUrl
             };
 
             db.newIn = {
@@ -890,7 +969,7 @@
                 title: document.getElementById('newin-title').value,
                 description: document.getElementById('newin-description').value,
                 price: document.getElementById('newin-price').value,
-                imageUrl: document.getElementById('newin-image').value
+                imageUrl: newInUrl
             };
 
             db.siteSettings = {
@@ -909,7 +988,7 @@
             status.style.color = '#92400e';
 
             try {
-                collectFormData();
+                await collectFormData();
 
                 const res = await fetch(API_URL, {
                     method: 'PUT',
