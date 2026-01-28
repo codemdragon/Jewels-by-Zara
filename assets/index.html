@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewels by Zara | Premium Pakistani Jewellery</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:wght@100..900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F1E5AC;
+            --dark: #0F0F0F;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #fdfdfd;
+        }
+
+        h1,
+        h2,
+        h3,
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .gold-text {
+            color: var(--gold);
+        }
+
+        .gold-bg {
+            background-color: var(--gold);
+        }
+
+        .gold-border {
+            border-color: var(--gold);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.05);
+        }
+
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+        }
+
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                bottom: 30px;
+                opacity: 1;
+            }
+
+            to {
+                bottom: 0;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="text-zinc-900">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast font-semibold">Details copied! Redirecting to Instagram...</div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="Logo.jpg" alt="Jewels by Zara Logo"
+                    class="w-10 h-10 rounded-full object-cover border-2 border-[var(--gold)]">
+                <span class="text-2xl font-serif font-bold tracking-tighter gold-text uppercase">Jewels by Zara</span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium uppercase tracking-widest">
+                <a href="#home" class="hover:text-[var(--gold)] transition-colors">Home</a>
+                <a href="#new" class="hover:text-[var(--gold)] transition-colors">New In</a>
+                <a href="#collection" class="hover:text-[var(--gold)] transition-colors">Collection</a>
+                <a href="https://www.instagram.com/jewels_by_zara23/" target="_blank"
+                    class="hover:text-[var(--gold)] transition-colors">Instagram</a>
+            </div>
+            <a href="https://www.instagram.com/jewels_by_zara23/" target="_blank"
+                class="gold-bg text-white px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-black transition-all">Follow
+                Us</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop"
+                class="w-full h-full object-cover brightness-50" alt="Gold Jewelry Background">
+        </div>
+        <div class="relative z-10 text-center text-white px-4">
+            <h2 class="text-sm uppercase tracking-[0.5em] mb-4 animate-pulse">Premium Quality Jewellery</h2>
+            <h1 class="text-6xl md:text-8xl font-serif mb-6 leading-tight">Affordable Elegance</h1>
+            <p class="text-lg md:text-xl max-w-2xl mx-auto mb-8 font-light italic text-zinc-200">
+                Exquisite gold-themed necklaces, watches, and bracelets. Delivered all over Pakistan.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#collection"
+                    class="gold-bg text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">Shop
+                    Collection</a>
+                <a href="#new"
+                    class="border border-white text-white px-10 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all">Latest
+                    Arrivals</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Highlighted Feature -->
+    <section id="new" class="py-20 bg-zinc-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="relative group overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=2070&auto=format&fit=crop"
+                        alt="Waterproof Bracelet"
+                        class="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute top-4 left-4 gold-bg text-white px-4 py-1 text-xs font-bold uppercase">Must
+                        Have</div>
+                </div>
+                <div>
+                    <span class="gold-text font-bold tracking-widest uppercase text-sm">Signature Piece</span>
+                    <h2 class="text-4xl md:text-5xl font-serif mt-4 mb-6">New Waterproof Stainless Steel Bracelet</h2>
+                    <p class="text-zinc-600 mb-8 leading-relaxed">
+                        Engineered for daily elegance. Our new tarnish-free stainless steel bracelet is completely
+                        waterproof, ensuring that your sparkle stays bright no matter where life takes you.
+                    </p>
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 gold-text" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <span class="text-sm font-medium">Tarnish Free & Hypoallergenic</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 gold-text" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                                </path>
+                            </svg>
+                            <span class="text-sm font-medium">Pakistan Wide Delivery</span>
+                        </div>
+                    </div>
+                    <button onclick="orderItem('Stainless Steel Waterproof Bracelet', 'PKR 1,850')"
+                        class="mt-10 gold-bg text-white px-8 py-3 font-bold uppercase tracking-widest hover:bg-black transition-all flex items-center">
+                        Order Now <span class="ml-2">→</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-center text-4xl font-serif mb-12">Shop by Category</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="#collection" class="relative h-64 group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1599643478123-518423617307?q=80&w=2070&auto=format&fit=crop"
+                        class="w-full h-full object-cover transition-filter duration-300 group-hover:brightness-50"
+                        alt="Necklaces">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-white font-bold tracking-widest uppercase">Necklaces</span>
+                    </div>
+                </a>
+                <a href="#collection" class="relative h-64 group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?q=80&w=2070&auto=format&fit=crop"
+                        class="w-full h-full object-cover transition-filter duration-300 group-hover:brightness-50"
+                        alt="Watches">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-white font-bold tracking-widest uppercase">Watches</span>
+                    </div>
+                </a>
+                <a href="#collection" class="relative h-64 group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop"
+                        class="w-full h-full object-cover transition-filter duration-300 group-hover:brightness-50"
+                        alt="Bracelets">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-white font-bold tracking-widest uppercase">Bracelets</span>
+                    </div>
+                </a>
+                <a href="#collection" class="relative h-64 group cursor-pointer">
+                    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3f41e?q=80&w=2070&auto=format&fit=crop"
+                        class="w-full h-full object-cover transition-filter duration-300 group-hover:brightness-50"
+                        alt="Rings">
+                    <div
+                        class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-white font-bold tracking-widest uppercase">Rings</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collection Grid -->
+    <section id="collection" class="py-20 bg-zinc-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-4xl font-serif">The Gold Collection</h2>
+                    <p class="text-zinc-500 mt-2">Discover our curated selection of tarnish-free jewelry.</p>
+                </div>
+                <div class="mt-6 md:mt-0">
+                    <span class="text-xs font-bold uppercase tracking-widest border-b-2 border-zinc-900 pb-1">All
+                        Items</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product Card 1 -->
+                <div class="product-card group bg-white shadow-sm border border-zinc-100">
+                    <div class="overflow-hidden aspect-[4/5] relative">
+                        <img src="https://images.unsplash.com/photo-1535633302703-b0703af2964c?q=80&w=2070&auto=format&fit=crop"
+                            class="product-img w-full h-full object-cover transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-1">Dainty Gold Chain</h3>
+                        <p class="gold-text font-semibold mb-4">PKR 2,400</p>
+                        <button onclick="orderItem('Dainty Gold Chain', 'PKR 2,400')"
+                            class="w-full border gold-border gold-text py-2 text-xs font-bold uppercase tracking-widest hover:bg-[var(--gold)] hover:text-white transition-all">Copy
+                            & DM Order</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="product-card group bg-white shadow-sm border border-zinc-100">
+                    <div class="overflow-hidden aspect-[4/5] relative">
+                        <img src="https://images.unsplash.com/photo-1589128777073-263566ae5e4d?q=80&w=2070&auto=format&fit=crop"
+                            class="product-img w-full h-full object-cover transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-1">Classic Gold Chrono</h3>
+                        <p class="gold-text font-semibold mb-4">PKR 4,500</p>
+                        <button onclick="orderItem('Classic Gold Chrono Watch', 'PKR 4,500')"
+                            class="w-full border gold-border gold-text py-2 text-xs font-bold uppercase tracking-widest hover:bg-[var(--gold)] hover:text-white transition-all">Copy
+                            & DM Order</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="product-card group bg-white shadow-sm border border-zinc-100">
+                    <div class="overflow-hidden aspect-[4/5] relative">
+                        <img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=2070&auto=format&fit=crop"
+                            class="product-img w-full h-full object-cover transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-1">Layered Butterfly Necklace</h3>
+                        <p class="gold-text font-semibold mb-4">PKR 1,950</p>
+                        <button onclick="orderItem('Layered Butterfly Necklace', 'PKR 1,950')"
+                            class="w-full border gold-border gold-text py-2 text-xs font-bold uppercase tracking-widest hover:bg-[var(--gold)] hover:text-white transition-all">Copy
+                            & DM Order</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="product-card group bg-white shadow-sm border border-zinc-100">
+                    <div class="overflow-hidden aspect-[4/5] relative">
+                        <img src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=2070&auto=format&fit=crop"
+                            class="product-img w-full h-full object-cover transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-1">Celestial Gold Rings (Set)</h3>
+                        <p class="gold-text font-semibold mb-4">PKR 1,600</p>
+                        <button onclick="orderItem('Celestial Gold Rings (Set)', 'PKR 1,600')"
+                            class="w-full border gold-border gold-text py-2 text-xs font-bold uppercase tracking-widest hover:bg-[var(--gold)] hover:text-white transition-all">Copy
+                            & DM Order</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 5 -->
+                <div class="product-card group bg-white shadow-sm border border-zinc-100">
+                    <div class="overflow-hidden aspect-[4/5] relative">
+                        <img src="https://images.unsplash.com/photo-1611085583191-a3b130a8b94a?q=80&w=2070&auto=format&fit=crop"
+                            class="product-img w-full h-full object-cover transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-1">Emerald Gold Pendant</h3>
+                        <p class="gold-text font-semibold mb-4">PKR 2,200</p>
+                        <button onclick="orderItem('Emerald Gold Pendant', 'PKR 2,200')"
+                            class="w-full border gold-border gold-text py-2 text-xs font-bold uppercase tracking-widest hover:bg-[var(--gold)] hover:text-white transition-all">Copy
+                            & DM Order</button>
+                    </div>
+                </div>
+
+                <!-- Product Card 6 -->
+                <div class="product-card group bg-white shadow-sm border border-zinc-100">
+                    <div class="overflow-hidden aspect-[4/5] relative">
+                        <img src="https://images.unsplash.com/photo-1598560944732-431955699c7b?q=80&w=2070&auto=format&fit=crop"
+                            class="product-img w-full h-full object-cover transition-transform duration-500">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg mb-1">Luxe Gold Bangle</h3>
+                        <p class="gold-text font-semibold mb-4">PKR 1,750</p>
+                        <button onclick="orderItem('Luxe Gold Bangle', 'PKR 1,750')"
+                            class="w-full border gold-border gold-text py-2 text-xs font-bold uppercase tracking-widest hover:bg-[var(--gold)] hover:text-white transition-all">Copy
+                            & DM Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Order -->
+    <section class="py-20 bg-black text-white">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-serif mb-8 italic">Seamless Shopping</h2>
+            <div class="grid md:grid-cols-3 gap-12">
+                <div>
+                    <div class="text-4xl gold-text mb-4">01</div>
+                    <h3 class="text-xl font-bold mb-2">Select Your Piece</h3>
+                    <p class="text-zinc-400">Browse our collection and find the perfect jewel for you.</p>
+                </div>
+                <div>
+                    <div class="text-4xl gold-text mb-4">02</div>
+                    <h3 class="text-xl font-bold mb-2">Copy Details</h3>
+                    <p class="text-zinc-400">Click the 'Order' button to copy product info automatically.</p>
+                </div>
+                <div>
+                    <div class="text-4xl gold-text mb-4">03</div>
+                    <h3 class="text-xl font-bold mb-2">DM on Instagram</h3>
+                    <p class="text-zinc-400">Paste the details in our Instagram DM and confirm your order.</p>
+                </div>
+            </div>
+            <a href="https://www.instagram.com/jewels_by_zara23/" target="_blank"
+                class="inline-block mt-16 border-b border-white pb-1 font-bold uppercase tracking-widest hover:gold-text hover:gold-border transition-all">Open
+                Instagram DMs</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-12 border-t border-zinc-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-8 md:mb-0">
+                    <div class="flex items-center gap-3 justify-center md:justify-start mb-2">
+                        <img src="Logo.jpg" alt="Jewels by Zara Logo"
+                            class="w-12 h-12 rounded-full object-cover border-2 border-[var(--gold)]">
+                        <h2 class="text-2xl font-serif font-bold gold-text uppercase">Jewels by Zara</h2>
+                    </div>
+                    <p class="text-sm text-zinc-500">Premium quality at affordable prices ✨</p>
+                </div>
+                <div class="flex space-x-6 mb-8 md:mb-0">
+                    <a href="https://www.instagram.com/jewels_by_zara23/" class="hover:gold-text"><svg class="w-6 h-6"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg></a>
+                </div>
+                <div class="text-xs text-zinc-400 uppercase tracking-widest text-center md:text-right">
+                    © 2026 Jewels by Zara. Delivery All Over Pakistan.<br>
+                    <a href="https://codemsportfolio.netlify.app" target="_blank"
+                        class="hover:gold-text transition-colors">Made by Codem</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function orderItem(name, price) {
+            const message = `Hi! I would like to order:\n\nProduct: ${name}\nPrice: ${price}\n\nCan you please guide me on how to proceed? ✨`;
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(message).then(() => {
+                showToast();
+                // Redirect after a short delay
+                setTimeout(() => {
+                    window.open('https://www.instagram.com/jewels_by_zara23/', '_blank');
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                window.open('https://www.instagram.com/jewels_by_zara23/', '_blank');
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "toast show font-semibold";
+            setTimeout(function () { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+    </script>
+</body>
+
+</html>
