@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jewels by Zara Admin Panel</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F1E5AC;
+            --dark: #0F0F0F;
+            --bg: #f8f8f8;
+            --white: #fff;
+            --border: #e5e5e5;
+            --success: #22c55e;
+            --error: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Login Screen */
+        #login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--dark) 0%, #1a1a1a 50%, #2a2a2a 100%);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-box img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--gold);
+        }
+
+        .login-box h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-box p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--white);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .navbar .brand img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--gold);
+        }
+
+        .navbar h2 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            padding-bottom: 50px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1.5rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gold);
+            display: inline-block;
+            font-size: 1.3rem;
+        }
+
+        /* Form Elements */
+        .input-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .row .input-group {
+            flex: 1;
+        }
+
+        /* Buttons */
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: var(--gold);
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #c4a030;
+            transform: translateY(-1px);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+
+        .btn-del {
+            background: var(--error);
+            color: white;
+        }
+
+        .btn-del:hover {
+            background: #dc2626;
+        }
+
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #2563eb;
+        }
+
+        .btn-add {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #16a34a;
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            padding: 8px 20px;
+        }
+
+        .btn-logout:hover {
+            background: var(--gold);
+            color: white;
+        }
+
+        /* Item Lists */
+        .item-list {
+            list-style: none;
+        }
+
+        .item-list li {
+            background: #fafafa;
+            border: 1px solid var(--border);
+            padding: 15px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .item-list li:hover {
+            background: #f5f5f5;
+            border-color: #ddd;
+        }
+
+        .product-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .product-info img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .product-details strong {
+            font-size: 0.95rem;
+        }
+
+        .product-desc {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .product-price {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Status Messages */
+        .status {
+            margin-top: 15px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .status.error {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /* Image Preview */
+        .img-preview {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            margin-top: 10px;
+            border-radius: 10px;
+            display: none;
+            border: 2px solid var(--border);
+        }
+
+        /* Carousel Images */
+        .carousel-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .carousel-item img {
+            width: 80px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .carousel-item span {
+            font-size: 0.75rem;
+            color: #666;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Categories Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .category-card {
+            position: relative;
+            height: 120px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-card .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-card .overlay span {
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+
+            .navbar {
+                padding: 1rem;
+            }
+
+            .navbar h2 {
+                font-size: 1.2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Screen -->
+    <div id="login-screen">
+        <div class="login-box">
+            <img src="Logo.jpg" alt="Jewels by Zara Logo">
+            <h2>Admin Panel</h2>
+            <p>Enter your GitHub Token to manage the website</p>
+            <div class="input-group">
+                <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx">
+            </div>
+            <button class="btn-primary" onclick="login()">Access Panel</button>
+        </div>
+    </div>
+
+    <!-- Admin App -->
+    <div id="admin-app" style="display:none;">
+        <div class="navbar">
+            <div class="brand">
+                <img src="Logo.jpg" alt="Logo">
+                <h2>Jewels Manager</h2>
+            </div>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="container">
+            <!-- Repo Settings -->
+            <div class="card">
+                <h3>🔧 Repository Settings</h3>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Owner</label>
+                        <input type="text" id="repo-owner" value="codemdragon">
+                    </div>
+                    <div class="input-group">
+                        <label>Repo Name</label>
+                        <input type="text" id="repo-name" value="Jewels-by-Zara">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="loadDb()">Connect & Load Data</button>
+            </div>
+
+            <!-- Hero Section -->
+            <div class="card">
+                <h3>🏠 Hero Section</h3>
+                <div class="input-group">
+                    <label>Subtitle</label>
+                    <input type="text" id="hero-subtitle">
+                </div>
+                <div class="input-group">
+                    <label>Title</label>
+                    <input type="text" id="hero-title">
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <textarea id="hero-description" rows="2"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>Background Image URL</label>
+                    <input type="text" id="hero-bg" placeholder="Paste image URL">
+                </div>
+            </div>
+
+            <!-- New In Section -->
+            <div class="card">
+                <h3>✨ "New In" Feature</h3>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Badge Text</label>
+                        <input type="text" id="newin-badge">
+                    </div>
+                    <div class="input-group">
+                        <label>Category Label</label>
+                        <input type="text" id="newin-category">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Title</label>
+                    <input type="text" id="newin-title">
+                </div>
+                <div class="input-group">
+                    <label>Description</label>
+                    <textarea id="newin-description" rows="3"></textarea>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Price</label>
+                        <input type="text" id="newin-price" placeholder="PKR X,XXX">
+                    </div>
+                    <div class="input-group">
+                        <label>Image URL</label>
+                        <input type="text" id="newin-image">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Upload New Image</label>
+                    <input type="file" id="newin-file" accept="image/*">
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="card">
+                <h3>📂 Categories</h3>
+                <div class="category-grid" id="category-grid"></div>
+                <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #eee;">
+                <h4 style="margin-bottom: 1rem; font-size: 0.9rem; color: #555;">Edit Category</h4>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Category Name</label>
+                        <input type="text" id="cat-name">
+                    </div>
+                    <div class="input-group">
+                        <label>Image URL</label>
+                        <input type="text" id="cat-image">
+                    </div>
+                </div>
+                <input type="hidden" id="cat-index" value="-1">
+                <button class="btn-primary btn-add" id="btn-save-cat" onclick="saveCategory()"
+                    style="margin-top: 0;">Save Category</button>
+            </div>
+
+            <!-- Products -->
+            <div class="card">
+                <h3>💎 Products</h3>
+                <ul class="item-list" id="product-list"></ul>
+                <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid #eee;">
+                <h4 style="margin-bottom: 1rem; font-size: 0.9rem; color: #555;">Add / Edit Product</h4>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Product Name</label>
+                        <input type="text" id="new-name">
+                    </div>
+                    <div class="input-group">
+                        <label>Price</label>
+                        <input type="text" id="new-price" placeholder="PKR X,XXX">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>ID (unique)</label>
+                    <input type="text" id="new-id" placeholder="e.g. gold-necklace-01">
+                </div>
+                <div class="input-group">
+                    <label>Image URL</label>
+                    <input type="text" id="new-img" placeholder="Paste URL">
+                </div>
+                <div class="input-group">
+                    <label>Upload Image</label>
+                    <input type="file" id="new-img-file" accept="image/*">
+                    <img id="img-preview" class="img-preview" src="" alt="Preview">
+                </div>
+                <button class="btn-primary" id="btn-add-product" onclick="addProduct()">Add Product</button>
+            </div>
+
+            <!-- Site Settings -->
+            <div class="card">
+                <h3>⚙️ Site Settings</h3>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Brand Name</label>
+                        <input type="text" id="brand-name">
+                    </div>
+                    <div class="input-group">
+                        <label>Tagline</label>
+                        <input type="text" id="tagline">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Instagram URL</label>
+                        <input type="text" id="instagram-url">
+                    </div>
+                    <div class="input-group">
+                        <label>Instagram Handle</label>
+                        <input type="text" id="instagram-handle" placeholder="@handle">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Changes -->
+            <div class="card">
+                <h3>🚀 Finalize Changes</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Push all changes to your live website on
+                    GitHub.</p>
+                <button class="btn-primary" onclick="saveToGitHub()" style="background: var(--success);">Push to Live
+                    Website</button>
+                <div id="save-status" class="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let API_URL = '';
+        let CURRENT_SHA = '';
+        let token = localStorage.getItem('jewels_gh_token');
+        let db = {
+            carouselImages: [],
+            hero: {},
+            newIn: {},
+            categories: [],
+            products: [],
+            siteSettings: {}
+        };
+        let editingProductIndex = null;
+
+        // Auto-login if token exists
+        if (token) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('admin-app').style.display = 'block';
+            loadDb();
+        }
+
+        function login() {
+            const inputToken = document.getElementById('gh-token').value;
+            if (inputToken.startsWith('ghp_') || inputToken.startsWith('github_pat_')) {
+                localStorage.setItem('jewels_gh_token', inputToken);
+                token = inputToken;
+                location.reload();
+            } else {
+                alert('Invalid Token. Must start with ghp_ or github_pat_');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('jewels_gh_token');
+            location.reload();
+        }
+
+        async function loadDb() {
+            const owner = document.getElementById('repo-owner').value;
+            const repo = document.getElementById('repo-name').value;
+            API_URL = `https://api.github.com/repos/${owner}/${repo}/contents/data/db.json`;
+
+            try {
+                const res = await fetch(API_URL, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+                if (!res.ok) throw new Error("Failed to load database");
+                const data = await res.json();
+                CURRENT_SHA = data.sha;
+                db = JSON.parse(atob(data.content));
+                populateForm();
+                showStatus('save-status', 'Data loaded successfully!', 'success');
+            } catch (err) {
+                showStatus('save-status', 'Error: ' + err.message + '. Check repo settings and ensure db.json exists in /data/ folder.', 'error');
+            }
+        }
+
+        function populateForm() {
+            // Hero
+            document.getElementById('hero-subtitle').value = db.hero?.subtitle || '';
+            document.getElementById('hero-title').value = db.hero?.title || '';
+            document.getElementById('hero-description').value = db.hero?.description || '';
+            document.getElementById('hero-bg').value = db.hero?.backgroundImage || '';
+
+            // New In
+            document.getElementById('newin-badge').value = db.newIn?.badgeText || '';
+            document.getElementById('newin-category').value = db.newIn?.categoryLabel || '';
+            document.getElementById('newin-title').value = db.newIn?.title || '';
+            document.getElementById('newin-description').value = db.newIn?.description || '';
+            document.getElementById('newin-price').value = db.newIn?.price || '';
+            document.getElementById('newin-image').value = db.newIn?.imageUrl || '';
+
+            // Site Settings
+            document.getElementById('brand-name').value = db.siteSettings?.brandName || '';
+            document.getElementById('tagline').value = db.siteSettings?.tagline || '';
+            document.getElementById('instagram-url').value = db.siteSettings?.instagramUrl || '';
+            document.getElementById('instagram-handle').value = db.siteSettings?.instagramHandle || '';
+
+            renderCategories();
+            renderProducts();
+        }
+
+        function renderCategories() {
+            const grid = document.getElementById('category-grid');
+            grid.innerHTML = db.categories.map((cat, i) => `
+                <div class="category-card" onclick="editCategory(${i})">
+                    <img src="${cat.imageUrl}" alt="${cat.name}">
+                    <div class="overlay">
+                        <span>${cat.name}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function editCategory(index) {
+            const cat = db.categories[index];
+            document.getElementById('cat-name').value = cat.name;
+            document.getElementById('cat-image').value = cat.imageUrl;
+            document.getElementById('cat-index').value = index;
+        }
+
+        function saveCategory() {
+            const index = parseInt(document.getElementById('cat-index').value);
+            if (index < 0) return;
+
+            db.categories[index] = {
+                name: document.getElementById('cat-name').value,
+                imageUrl: document.getElementById('cat-image').value
+            };
+            renderCategories();
+            document.getElementById('cat-name').value = '';
+            document.getElementById('cat-image').value = '';
+            document.getElementById('cat-index').value = '-1';
+        }
+
+        function renderProducts() {
+            document.getElementById('product-list').innerHTML = db.products.map((p, i) => `
+                <li>
+                    <div class="product-info">
+                        <img src="${p.imageUrl}" alt="${p.name}">
+                        <div class="product-details">
+                            <strong>${p.name}</strong>
+                            <span class="product-price">${p.price}</span>
+                            <span class="product-desc">ID: ${p.id}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn-sm btn-edit" onclick="editProduct(${i})">Edit</button>
+                        <button class="btn-sm btn-del" onclick="removeProduct(${i})">Del</button>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        function editProduct(index) {
+            const p = db.products[index];
+            editingProductIndex = index;
+            document.getElementById('new-id').value = p.id;
+            document.getElementById('new-id').disabled = true;
+            document.getElementById('new-name').value = p.name;
+            document.getElementById('new-price').value = p.price;
+            document.getElementById('new-img').value = p.imageUrl;
+
+            const preview = document.getElementById('img-preview');
+            if (p.imageUrl) {
+                preview.src = p.imageUrl;
+                preview.style.display = 'block';
+            }
+
+            document.getElementById('btn-add-product').innerText = 'Save Changes';
+        }
+
+        function removeProduct(index) {
+            if (confirm('Delete this product?')) {
+                db.products.splice(index, 1);
+                renderProducts();
+            }
+        }
+
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+
+        async function uploadImage(fileInput, prefix) {
+            if (fileInput.files.length === 0) return null;
+            const file = fileInput.files[0];
+            const fileName = `${prefix}-${Date.now()}.${file.name.split('.').pop()}`;
+            const owner = document.getElementById('repo-owner').value;
+            const repo = document.getElementById('repo-name').value;
+            const uploadUrl = `https://api.github.com/repos/${owner}/${repo}/contents/assets/${fileName}`;
+            const content = await toBase64(file);
+
+            const res = await fetch(uploadUrl, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `Upload ${fileName}`,
+                    content
+                })
+            });
+
+            if (!res.ok) throw new Error("GitHub Upload Failed");
+            const data = await res.json();
+            return data.content.download_url;
+        }
+
+        async function addProduct() {
+            const btn = document.getElementById('btn-add-product');
+            const fileInput = document.getElementById('new-img-file');
+
+            const id = document.getElementById('new-id').value;
+            const name = document.getElementById('new-name').value;
+            const price = document.getElementById('new-price').value;
+            let url = document.getElementById('new-img').value;
+
+            if (!id || !name || !price) return alert("ID, Name, and Price are required");
+
+            try {
+                btn.disabled = true;
+                btn.innerText = "Saving...";
+
+                const uploadedUrl = await uploadImage(fileInput, `prod-${id}`);
+                if (uploadedUrl) url = uploadedUrl;
+
+                const productData = { id, name, price, imageUrl: url };
+
+                if (editingProductIndex !== null) {
+                    db.products[editingProductIndex] = productData;
+                    editingProductIndex = null;
+                } else {
+                    db.products.push(productData);
+                }
+
+                renderProducts();
+                resetProductForm();
+            } catch (e) {
+                alert(e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "Add Product";
+            }
+        }
+
+        function resetProductForm() {
+            ['new-name', 'new-id', 'new-price', 'new-img'].forEach(id => {
+                document.getElementById(id).value = '';
+            });
+            document.getElementById('new-id').disabled = false;
+            document.getElementById('new-img-file').value = '';
+            document.getElementById('btn-add-product').innerText = "Add Product";
+            const preview = document.getElementById('img-preview');
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+
+        // Image preview on file select
+        document.getElementById('new-img-file').addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const preview = document.getElementById('img-preview');
+            preview.src = URL.createObjectURL(file);
+            preview.style.display = 'block';
+        });
+
+        function collectFormData() {
+            // Collect all form data back to db object
+            db.hero = {
+                subtitle: document.getElementById('hero-subtitle').value,
+                title: document.getElementById('hero-title').value,
+                description: document.getElementById('hero-description').value,
+                backgroundImage: document.getElementById('hero-bg').value
+            };
+
+            db.newIn = {
+                ...db.newIn,
+                badgeText: document.getElementById('newin-badge').value,
+                categoryLabel: document.getElementById('newin-category').value,
+                title: document.getElementById('newin-title').value,
+                description: document.getElementById('newin-description').value,
+                price: document.getElementById('newin-price').value,
+                imageUrl: document.getElementById('newin-image').value
+            };
+
+            db.siteSettings = {
+                brandName: document.getElementById('brand-name').value,
+                tagline: document.getElementById('tagline').value,
+                instagramUrl: document.getElementById('instagram-url').value,
+                instagramHandle: document.getElementById('instagram-handle').value
+            };
+        }
+
+        async function saveToGitHub() {
+            const status = document.getElementById('save-status');
+            status.className = 'status show';
+            status.textContent = 'Saving...';
+            status.style.background = '#fef3c7';
+            status.style.color = '#92400e';
+
+            try {
+                collectFormData();
+
+                const res = await fetch(API_URL, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: "Update database via Admin Panel",
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify(db, null, 2)))),
+                        sha: CURRENT_SHA
+                    })
+                });
+
+                if (!res.ok) throw new Error('Update Failed');
+                const data = await res.json();
+                CURRENT_SHA = data.content.sha;
+                showStatus('save-status', '✓ Changes pushed successfully!', 'success');
+            } catch (err) {
+                showStatus('save-status', 'Error: ' + err.message, 'error');
+            }
+        }
+
+        function showStatus(elementId, message, type) {
+            const status = document.getElementById(elementId);
+            status.textContent = message;
+            status.className = `status show ${type}`;
+            if (type === 'success') {
+                setTimeout(() => {
+                    status.className = 'status';
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+
+</html>
